@@ -13,7 +13,7 @@ examples/text-classification/run_glue.py \
 --max_seq_length 512 \
 --per_device_train_batch_size 16 \
 --per_device_eval_batch_size 16 \
---learning_rate 5e-4 \
+--learning_rate 1e-3 \
 --num_train_epochs 10 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
@@ -21,11 +21,11 @@ examples/text-classification/run_glue.py \
 --logging_dir $output_dir/log \
 --warmup_ratio 0.06 \
 --apply_lora \
---lora_r 16 \
---lora_alpha 8 \
+--lora_r 32 \
+--lora_alpha 4 \
 --apply_adapter \
 --adapter_type houlsby \
---adapter_size 16 \
+--adapter_size 32 \
 --seed 0 \
 --weight_decay 0.1 \
 --report_to all
