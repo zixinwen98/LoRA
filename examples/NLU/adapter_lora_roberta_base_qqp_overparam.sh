@@ -2,7 +2,7 @@ export CUDA_VISIBLE_DEVICES=0,1,2,3
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=0
 export output_dir="./adapter_lora_roberta_base_qqp"
-python -m torch.distributed.launch --nproc_per_node=3 examples/text-classification/run_glue.py \
+python -m torch.distributed.launch --nproc_per_node=4 examples/text-classification/run_glue.py \
 --model_name_or_path roberta-base \
 --task_name qqp \
 --do_train \
@@ -12,7 +12,7 @@ python -m torch.distributed.launch --nproc_per_node=3 examples/text-classificati
 --max_seq_length 512 \
 --per_device_train_batch_size 32 \
 --per_device_eval_batch_size 32 \
---learning_rate 1e-3 \
+--learning_rate 5e-4 \
 --num_train_epochs 10 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \

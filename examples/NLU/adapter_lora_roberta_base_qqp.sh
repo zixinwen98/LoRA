@@ -12,7 +12,7 @@ python examples/text-classification/run_glue.py \
 --max_seq_length 512 \
 --per_device_train_batch_size 16 \
 --per_device_eval_batch_size 16 \
---learning_rate 1e-3 \
+--learning_rate 5e-4 \
 --num_train_epochs 10 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
