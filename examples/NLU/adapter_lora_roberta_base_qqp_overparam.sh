@@ -12,8 +12,8 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --max_seq_length 512 \
 --per_device_train_batch_size 32 \
 --per_device_eval_batch_size 32 \
---learning_rate 7e-4 \
---num_train_epochs 20 \
+--learning_rate 5e-4 \
+--num_train_epochs 30 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
