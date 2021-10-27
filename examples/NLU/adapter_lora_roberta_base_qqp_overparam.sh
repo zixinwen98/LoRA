@@ -23,8 +23,7 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --lora_r 192 \
 --lora_alpha 4 \
 --apply_adapter \
---adapter_type houlsby \
+--adapter_type pfeiffer \
 --adapter_size 192 \
 --seed 0 \
---weight_decay 0.1 \
 --report_to all
