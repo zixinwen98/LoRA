@@ -12,7 +12,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 python -m torch.distributed.launch examples/text-cl
 --per_device_train_batch_size 32 \
 --per_device_eval_batch_size 32 \
 --learning_rate 7e-4 \
---num_train_epochs 20 \
+--num_train_epochs 10 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
