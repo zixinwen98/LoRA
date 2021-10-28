@@ -26,5 +26,4 @@ python examples/text-classification/run_glue.py \
 --adapter_type houlsby \
 --adapter_size 192 \
 --weight_decay 0.1 \
---seed 0 \
---report_to all
+--seed 0 
