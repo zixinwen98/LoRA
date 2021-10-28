@@ -10,10 +10,10 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --evaluation_strategy epoch \
 --save_strategy epoch \
 --max_seq_length 512 \
---per_device_train_batch_size 16 \
---per_device_eval_batch_size 16 \
---learning_rate 5e-4 \
---num_train_epochs 20 \
+--per_device_train_batch_size 32 \
+--per_device_eval_batch_size 32 \
+--learning_rate 7e-4 \
+--num_train_epochs 30 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
@@ -25,5 +25,6 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --apply_adapter \
 --adapter_type houlsby \
 --adapter_size 128 \
+--weight_decay 0.15 \
 --seed 0 \
 --report_to all
