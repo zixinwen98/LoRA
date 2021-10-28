@@ -1,8 +1,7 @@
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=1
 export output_dir="./adapter_lora_roberta_base_qqp"
-CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --master_port 1124 --nproc_per_node=4 \
- examples/text-classification/run_glue.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python examples/text-classification/run_glue.py \
 --model_name_or_path roberta-base \
 --task_name qqp \
 --do_train \
