@@ -10,20 +10,20 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --evaluation_strategy epoch \
 --save_strategy epoch \
 --max_seq_length 512 \
---per_device_train_batch_size 32 \
---per_device_eval_batch_size 32 \
+--per_device_train_batch_size 16 \
+--per_device_eval_batch_size 16 \
 --learning_rate 5e-4 \
---num_train_epochs 30 \
+--num_train_epochs 20 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
 --logging_dir $output_dir/log \
 --warmup_ratio 0.06 \
 --apply_lora \
---lora_r 192 \
---lora_alpha 4 \
+--lora_r 128 \
+--lora_alpha 8 \
 --apply_adapter \
---adapter_type pfeiffer \
---adapter_size 192 \
+--adapter_type houlsby \
+--adapter_size 128 \
 --seed 0 \
 --report_to all
