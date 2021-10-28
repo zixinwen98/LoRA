@@ -12,7 +12,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python examples/text-classification/run_glue.py \
 --per_device_train_batch_size 32 \
 --per_device_eval_batch_size 32 \
 --learning_rate 7e-4 \
---num_train_epochs 30 \
+--num_train_epochs 20 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
