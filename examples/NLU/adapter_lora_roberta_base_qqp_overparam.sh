@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+export CUDA_VISIBLE_DEVICES=4,5,6,7
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=0
 export output_dir="./adapter_lora_roberta_base_qqp"
@@ -20,11 +20,11 @@ python -m torch.distributed.launch --nproc_per_node=4 examples/text-classificati
 --logging_dir $output_dir/log \
 --warmup_ratio 0.06 \
 --apply_lora \
---lora_r 128 \
---lora_alpha 8 \
+--lora_r 192 \
+--lora_alpha 2 \
 --apply_adapter \
 --adapter_type houlsby \
---adapter_size 128 \
---weight_decay 0.15 \
+--adapter_size 192 \
+--weight_decay 0.1 \
 --seed 0 \
 --report_to all
