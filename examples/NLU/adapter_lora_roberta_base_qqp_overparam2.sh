@@ -1,7 +1,8 @@
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=1
 export output_dir="./adapter_lora_roberta_base_qqp"
-CUDA_VISIBLE_DEVICES=0,1,2,3 python examples/text-classification/run_glue.py \
+python examples/text-classification/run_glue.py \
 --model_name_or_path roberta-base \
 --task_name qqp \
 --do_train \
@@ -19,11 +20,11 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python examples/text-classification/run_glue.py \
 --logging_dir $output_dir/log \
 --warmup_ratio 0.06 \
 --apply_lora \
---lora_r 256 \
+--lora_r 192 \
 --lora_alpha 1 \
 --apply_adapter \
 --adapter_type houlsby \
 --adapter_size 192 \
---weight_decay 0.05 \
+--weight_decay 0.03 \
 --seed 0 \
 --report_to all
