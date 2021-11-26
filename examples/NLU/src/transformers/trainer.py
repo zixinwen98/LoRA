@@ -2328,10 +2328,10 @@ class myTrainer(Trainer):
                 total_neurons = 0
                 neurons_left = 0
                 for name, param in model.named_parameters():
-                    if 'attention' not in name and 'dense' in name and 'weight' in name and len(param.data.shape) == 2:
+                    if 'intermediate' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
                         total_neurons += torch.norm(param.data,dim=1).shape[0]
-                        neurons_left += (torch.norm(param.data,dim=1) > 1e-6 * torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
+                        neurons_left += (torch.norm(param.data,dim=1) > 1e-5 * torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
                         if epoch == 0 and step == 1:
                             print(torch.norm(param,dim=1).sum())
                             print("total_neurons: {}, neurons_left: {}".format(total_neurons, neurons_left))
