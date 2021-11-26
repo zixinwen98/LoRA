@@ -1,14 +1,13 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export CUDA_VISIBLE_DEVICES=0
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=0
 export output_dir="./trial_run_group_lasso_roberta_base_mnli"
 
 for gl_param in 10
 do
-for lr in 1e-7
+for lr in 1e-5
 do
-python -m torch.distributed.launch --nproc_per_node=8 \
-    examples/group-lasso-text-classification/run_glue.py \
+python examples/group-lasso-text-classification/run_glue.py \
 --model_name_or_path roberta-base \
 --task_name mnli \
 --do_train \
@@ -16,10 +15,10 @@ python -m torch.distributed.launch --nproc_per_node=8 \
 --evaluation_strategy epoch \
 --save_strategy epoch \
 --max_seq_length 128 \
---per_device_train_batch_size 16 \
---per_device_eval_batch_size 16 \
+--per_device_train_batch_size 1 \
+--per_device_eval_batch_size 1 \
 --learning_rate $lr \
---num_train_epochs 20 \
+--num_train_epochs 1 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
