@@ -2326,7 +2326,7 @@ class myTrainer(Trainer):
                 
                 # Group Lasso Regularizer
                 for name, param in model.named_parameters():
-                    if 'attention' not in name and 'dense' in name and 'weight' in name:
+                    if 'attention' not in name and 'dense' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
                     if epoch == 0 and step == 1:
                         print(torch.norm(param,dim=1).sum())
