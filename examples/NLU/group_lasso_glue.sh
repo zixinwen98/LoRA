@@ -1,11 +1,11 @@
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=0
-export output_dir="./group_lasso_roberta_base_mnli"
+export output_dir="./trial_run_group_lasso_roberta_base_mnli"
 
-for gl_param in 1e-3 0.01 0.1 0.2 0.5
+for gl_param in 0.1 0.2 0.5
 do
-for lr in 1e-4 1e-3 1e-2
+for lr in 1e-2
 do
 python -m torch.distributed.launch --nproc_per_node=8 \
     examples/group-lasso-text-classification/run_glue.py \
