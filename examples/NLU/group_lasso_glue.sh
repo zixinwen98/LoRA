@@ -3,7 +3,9 @@ export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/ind
 export PYTHONHASHSEED=0
 export output_dir="./group_lasso_roberta_base_mnli"
 
-for gl_param in 0.1 0.3 0.5
+for gl_param in 1e-4 5e-4 1e-3 5e-3 0.01
+do
+for lr in 1e-3 3e-4 1e-4 5e-5
 do
 python -m torch.distributed.launch --nproc_per_node=8 \
     examples/group-lasso-text-classification/run_glue.py \
@@ -16,7 +18,7 @@ python -m torch.distributed.launch --nproc_per_node=8 \
 --max_seq_length 128 \
 --per_device_train_batch_size 32 \
 --per_device_eval_batch_size 32 \
---learning_rate 3e-4 \
+--learning_rate $lr \
 --num_train_epochs 20 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
@@ -26,4 +28,5 @@ python -m torch.distributed.launch --nproc_per_node=8 \
 --seed 0 \
 --report_to all \
 --glasso_param $gl_param
+done
 done
