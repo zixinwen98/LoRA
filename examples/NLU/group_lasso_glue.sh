@@ -5,7 +5,7 @@ export output_dir="./trial_run_group_lasso_roberta_base_mnli"
 
 for gl_param in 10
 do
-for lr in 1e-5
+for lr in 1e-1
 do
 python -m torch.distributed.launch --nproc_per_node=8 \
     examples/group-lasso-text-classification/run_glue.py \
