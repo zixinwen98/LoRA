@@ -3,7 +3,7 @@ export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/ind
 export PYTHONHASHSEED=0
 export output_dir="./trial_run_group_lasso_roberta_base_mnli"
 
-for gl_param in 10
+for gl_param in 0.1
 do
 for lr in 1e-3
 do
