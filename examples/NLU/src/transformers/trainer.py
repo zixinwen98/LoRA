@@ -2329,6 +2329,7 @@ class myTrainer(Trainer):
                 total_neurons = 0
                 neurons_left = 0
                 avg_neuron_weight_norm = 0
+                '''
                 for name, param in model.named_parameters():
                     if 'intermediate' in name and 'weight' in name and 'dense' and len(param.data.shape) > 1:
                         tr_loss += self.args.glasso_param * torch.sqrt(torch.pow(param,2).sum(dim=1)).sum()
@@ -2339,6 +2340,7 @@ class myTrainer(Trainer):
                             print(torch.norm(param,dim=1).sum())
                             print("total_neurons: {}, neurons_left: {}".format(total_neurons, neurons_left))
                 avg_neuron_weight_norm /= total_neurons
+                '''
                 # Optimizer step for deepspeed must be called on every step regardless of the value of gradient_accumulation_steps
                 if self.deepspeed:
                     self.deepspeed.step()
