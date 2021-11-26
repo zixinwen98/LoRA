@@ -2391,7 +2391,7 @@ class myTrainer(Trainer):
                     break
 
             self.control = self.callback_handler.on_epoch_end(self.args, self.state, self.control)
-            self._maybe_log_save_evaluate(tr_loss, model, trial, epoch)
+            self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons)
 
             if self.args.tpu_metrics_debug or self.args.debug:
                 if is_torch_tpu_available():
