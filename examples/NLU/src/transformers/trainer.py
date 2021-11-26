@@ -2327,11 +2327,14 @@ class myTrainer(Trainer):
                 # Group Lasso Regularizer
                 total_neurons = 0
                 neurons_left = 0
+                min_neuron_weight_norm = 10000
                 for name, param in model.named_parameters():
                     if 'intermediate' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
                         total_neurons += torch.norm(param.data,dim=1).shape[0]
                         neurons_left += (torch.norm(param.data,dim=1) > 1e-3 * torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
+                        if min_neuron_weight_norm >= torch.min(torch.norm(param.data,dim=1)):
+                            min_neuron_weight_norm = torch.min(torch.norm(param.data,dim=1)).item()
                         if epoch == 0 and step == 1:
                             print(torch.norm(param,dim=1).sum())
                             print("total_neurons: {}, neurons_left: {}".format(total_neurons, neurons_left))
@@ -2386,13 +2389,13 @@ class myTrainer(Trainer):
                     self.state.epoch = epoch + (step + 1) / steps_in_epoch
                     self.control = self.callback_handler.on_step_end(self.args, self.state, self.control)
 
-                    self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons)
+                    self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons, min_neuron_weight_norm)
 
                 if self.control.should_epoch_stop or self.control.should_training_stop:
                     break
 
             self.control = self.callback_handler.on_epoch_end(self.args, self.state, self.control)
-            self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons)
+            self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons, min_neuron_weight_norm)
 
             if self.args.tpu_metrics_debug or self.args.debug:
                 if is_torch_tpu_available():
@@ -2462,7 +2465,7 @@ class myTrainer(Trainer):
 
         return TrainOutput(self.state.global_step, self._total_loss_scalar / self.state.global_step, metrics)
 
-    def _maybe_log_save_evaluate(self, tr_loss, model, trial, epoch, neurons_left=None, total_neurons=None):
+    def _maybe_log_save_evaluate(self, tr_loss, model, trial, epoch, neurons_left=None, total_neurons=None, min_weight_norm=None):
         if self.control.should_log:
             logs: Dict[str, float] = {}
             tr_loss_scalar = tr_loss.item()
@@ -2472,6 +2475,7 @@ class myTrainer(Trainer):
             logs["loss"] = round(tr_loss_scalar / (self.state.global_step - self._globalstep_last_logged), 4)
             logs["learning_rate"] = self._get_learning_rate()
             logs["unpruned_ratio"] = round(100 * neurons_left / total_neurons,2)
+            logs["min_weight_norm"] = min_weight_norm
 
             self._total_loss_scalar += tr_loss_scalar
             self._globalstep_last_logged = self.state.global_step
