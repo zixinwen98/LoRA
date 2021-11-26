@@ -2471,7 +2471,7 @@ class myTrainer(Trainer):
 
             logs["loss"] = round(tr_loss_scalar / (self.state.global_step - self._globalstep_last_logged), 4)
             logs["learning_rate"] = self._get_learning_rate()
-            logs["unpruned_ratio"] = round((100 * neurons_left / total_neurons).item(),2)
+            logs["unpruned_ratio"] = round(100 * neurons_left / total_neurons,2)
 
             self._total_loss_scalar += tr_loss_scalar
             self._globalstep_last_logged = self.state.global_step
