@@ -3,7 +3,7 @@ export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/ind
 export PYTHONHASHSEED=0
 export output_dir="./adapter_lora_roberta_base_qqp"
 
-for gl_param in 0.01 0.05 0.1 0.3
+for gl_param in 0.001 0.005 0.01 0.03
 do
 python -m torch.distributed.launch --nproc_per_node=8 \
     examples/group-lasso-text-classification/run_glue.py \
@@ -16,7 +16,7 @@ python -m torch.distributed.launch --nproc_per_node=8 \
 --max_seq_length 128 \
 --per_device_train_batch_size 16 \
 --per_device_eval_batch_size 16 \
---learning_rate 1e-2 \
+--learning_rate 1e-4 \
 --num_train_epochs 10 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
