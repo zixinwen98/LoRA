@@ -1,7 +1,7 @@
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 export CUBLAS_WORKSPACE_CONFIG=":16:8" # https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 export PYTHONHASHSEED=0
-export output_dir="./adapter_lora_roberta_base_qqp"
+export output_dir="./group_lasso_roberta_base_mnli"
 
 for gl_param in 0.001 0.005 0.01 0.03
 do

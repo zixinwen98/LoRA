@@ -2331,9 +2331,10 @@ class myTrainer(Trainer):
                     if 'attention' not in name and 'dense' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
                         total_neurons += torch.norm(param.data,dim=1).shape[0]
-                        neurons_left += (torch.norm(param.data,dim=1) == torch.ones_like(torch.norm(param.data,dim=1))).sum()
+                        neurons_left += (torch.norm(param.data,dim=1) == torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
                         if epoch == 0 and step == 1:
                             print(torch.norm(param,dim=1).sum())
+                            print("total_neurons: {}, neurons_left: {}".format(total_neurons, neurons_left))
 
                 # Optimizer step for deepspeed must be called on every step regardless of the value of gradient_accumulation_steps
                 if self.deepspeed:
