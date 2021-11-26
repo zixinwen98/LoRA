@@ -23,7 +23,7 @@ python examples/group-lasso-text-classification/run_glue.py \
 --overwrite_output_dir \
 --logging_steps 10 \
 --logging_dir $output_dir/log \
---warmup_ratio 0.06 \
+--warmup_ratio 0.0 \
 --seed 0 \
 --report_to all \
 --glasso_param $gl_param
