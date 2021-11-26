@@ -14,15 +14,15 @@ python -m torch.distributed.launch --nproc_per_node=8 \
 --evaluation_strategy epoch \
 --save_strategy epoch \
 --max_seq_length 128 \
---per_device_train_batch_size 16 \
---per_device_eval_batch_size 16 \
---learning_rate 5e-5 \
---num_train_epochs 10 \
+--per_device_train_batch_size 32 \
+--per_device_eval_batch_size 32 \
+--learning_rate 3e-4 \
+--num_train_epochs 20 \
 --output_dir $output_dir/model \
 --overwrite_output_dir \
 --logging_steps 10 \
 --logging_dir $output_dir/log \
---warmup_ratio 0.0 \
+--warmup_ratio 0.1s \
 --seed 0 \
 --report_to all \
 --glasso_param $gl_param
