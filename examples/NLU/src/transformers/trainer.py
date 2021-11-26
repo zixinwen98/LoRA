@@ -2321,7 +2321,7 @@ class myTrainer(Trainer):
                     with model.no_sync():
                         tr_loss += self.training_step(model, inputs)
                 else:
-                    tr_loss += self.training_step(model, inputs)
+                    tr_loss += self.training_step(model, inputs).detach_()
                 self._total_flos += float(self.floating_point_ops(inputs))
                 
                 tr_loss = 0
@@ -2331,7 +2331,7 @@ class myTrainer(Trainer):
                 avg_neuron_weight_norm = 0
                 for name, param in model.named_parameters():
                     if 'intermediate' in name and 'weight' in name and 'dense' and len(param.data.shape) > 1:
-                        tr_loss += self.args.glasso_param * torch.pow(torch.norm(param,dim=1),2).sum() / np.sqrt(param.data.shape[0])
+                        tr_loss += self.args.glasso_param * torch.sqrt(torch.pow(param,2).sum(dim=1)).sum() / np.sqrt(param.data.shape[0])
                         total_neurons += torch.norm(param.data,dim=1).shape[0]
                         neurons_left += (torch.norm(param.data,dim=1) > 1 * torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
                         avg_neuron_weight_norm += torch.sum(torch.norm(param.data,dim=1)).item()
