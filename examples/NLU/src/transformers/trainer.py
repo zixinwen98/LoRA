@@ -2328,8 +2328,8 @@ class myTrainer(Trainer):
                 for name, param in model.named_parameters():
                     if 'attention' not in name and 'dense' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
-                    if epoch == 0 and step == 1:
-                        print(torch.norm(param,dim=1).sum())
+                        if epoch == 0 and step == 1:
+                            print(torch.norm(param,dim=1).sum())
 
                 # Optimizer step for deepspeed must be called on every step regardless of the value of gradient_accumulation_steps
                 if self.deepspeed:
