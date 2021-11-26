@@ -2330,7 +2330,7 @@ class myTrainer(Trainer):
                 neurons_left = 0
                 min_neuron_weight_norm = 10000
                 for name, param in model.named_parameters():
-                    if 'intermediate' in name and 'weight' in name and len(param.data.shape) == 2:
+                    if 'intermediate' in name or 'output' in name and 'weight' in name and 'dense' and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
                         total_neurons += torch.norm(param.data,dim=1).shape[0]
                         neurons_left += (torch.norm(param.data,dim=1) > 1 * torch.ones_like(torch.norm(param.data,dim=1))).sum().item()
