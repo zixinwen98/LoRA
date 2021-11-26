@@ -36,7 +36,7 @@ from transformers import (
     EvalPrediction,
     HfArgumentParser,
     PretrainedConfig,
-    #Trainer,
+    Trainer,
     #TrainingArguments,
     default_data_collator,
     set_seed,
