@@ -896,7 +896,7 @@ if is_torch_available():
         "get_polynomial_decay_schedule_with_warmup",
         "get_scheduler",
     ]
-    _import_structure["trainer"] = ["Trainer"]
+    _import_structure["trainer"] = ["Trainer","myTrainer"]
     _import_structure["trainer_pt_utils"] = ["torch_distributed_zero_first"]
     _import_structure["trainer_seq2seq"] = ["Seq2SeqTrainer"]
 else:
@@ -1994,7 +1994,7 @@ if TYPE_CHECKING:
         )
 
         # Trainer
-        from .trainer import Trainer
+        from .trainer import Trainer, myTrainer
         from .trainer_pt_utils import torch_distributed_zero_first
         from .trainer_seq2seq import Seq2SeqTrainer
     else:
