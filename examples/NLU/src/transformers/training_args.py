@@ -511,6 +511,7 @@ class TrainingArguments:
     _n_gpu: int = field(init=False, repr=False, default=-1)
     cls_dropout: Optional[float] = field(default=None, metadata={"help": "cls drop out."})
     use_deterministic_algorithms: Optional[bool] = field(default=False, metadata={"help": "Whether or not to use deterministic algorithms."})
+    glasso_param: Optional[float] = field(default=0.3, metadata={"help": "Group Lasso parameter for Linear layers."})
 
     def __post_init__(self):
         # expand paths, if not os.makedirs("~/bar") will make directory
