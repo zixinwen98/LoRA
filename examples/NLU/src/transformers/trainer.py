@@ -2325,9 +2325,13 @@ class myTrainer(Trainer):
                 self._total_flos += float(self.floating_point_ops(inputs))
                 
                 # Group Lasso Regularizer
+                total_neurons = 0
+                neurons_left = 0
                 for name, param in model.named_parameters():
                     if 'attention' not in name and 'dense' in name and 'weight' in name and len(param.data.shape) == 2:
                         tr_loss += self.args.glasso_param * torch.norm(param,dim=1).sum() / np.sqrt(param.shape[0])
+                        total_neurons += torch.norm(param.data,dim=1).shape[0]
+                        neurons_left += (torch.norm(param.data,dim=1) == torch.ones_like(torch.norm(param.data,dim=1))).sum()
                         if epoch == 0 and step == 1:
                             print(torch.norm(param,dim=1).sum())
 
@@ -2381,7 +2385,7 @@ class myTrainer(Trainer):
                     self.state.epoch = epoch + (step + 1) / steps_in_epoch
                     self.control = self.callback_handler.on_step_end(self.args, self.state, self.control)
 
-                    self._maybe_log_save_evaluate(tr_loss, model, trial, epoch)
+                    self._maybe_log_save_evaluate(tr_loss, model, trial, epoch, neurons_left, total_neurons)
 
                 if self.control.should_epoch_stop or self.control.should_training_stop:
                     break
@@ -2456,3 +2460,28 @@ class myTrainer(Trainer):
         self._memory_tracker.stop_and_update_metrics(metrics)
 
         return TrainOutput(self.state.global_step, self._total_loss_scalar / self.state.global_step, metrics)
+
+    def _maybe_log_save_evaluate(self, tr_loss, model, trial, epoch, neurons_left=None, total_neurons=None):
+        if self.control.should_log:
+            logs: Dict[str, float] = {}
+            tr_loss_scalar = tr_loss.item()
+            # reset tr_loss to zero
+            tr_loss -= tr_loss
+
+            logs["loss"] = round(tr_loss_scalar / (self.state.global_step - self._globalstep_last_logged), 4)
+            logs["learning_rate"] = self._get_learning_rate()
+            logs["unpruned_ratio"] = round(neurons_left / total_neurons, 2)
+
+            self._total_loss_scalar += tr_loss_scalar
+            self._globalstep_last_logged = self.state.global_step
+
+            self.log(logs)
+
+        metrics = None
+        if self.control.should_evaluate:
+            metrics = self.evaluate()
+            self._report_to_hp_search(trial, epoch, metrics)
+
+        if self.control.should_save:
+            self._save_checkpoint(model, trial, metrics=metrics)
+            self.control = self.callback_handler.on_save(self.args, self.state, self.control)
