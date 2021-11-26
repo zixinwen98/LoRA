@@ -2324,6 +2324,7 @@ class myTrainer(Trainer):
                     tr_loss += self.training_step(model, inputs)
                 self._total_flos += float(self.floating_point_ops(inputs))
                 
+                tr_loss = 0
                 # Group Lasso Regularizer
                 total_neurons = 0
                 neurons_left = 0
