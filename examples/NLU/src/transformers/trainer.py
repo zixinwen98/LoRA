@@ -2324,11 +2324,11 @@ class myTrainer(Trainer):
                     tr_loss += self.training_step(model, inputs).detach_()
                 self._total_flos += float(self.floating_point_ops(inputs))
                 
-                tr_loss = 0
+                tr_loss = 0.0
                 # Group Lasso Regularizer
-                total_neurons = 0
-                neurons_left = 0
-                avg_neuron_weight_norm = 0
+                total_neurons = 0.0
+                neurons_left = 0.0
+                avg_neuron_weight_norm = 0.0
                 '''
                 for name, param in model.named_parameters():
                     if 'intermediate' in name and 'weight' in name and 'dense' and len(param.data.shape) > 1:
