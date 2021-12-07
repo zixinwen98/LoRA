@@ -178,3 +178,5 @@ class BertConfig(PretrainedConfig):
         self.apply_adapter = apply_adapter
         self.adapter_type = adapter_type
         self.adapter_size = adapter_size
+        # NEW
+        self.lora_dropout = lora_dropout
