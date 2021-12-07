@@ -217,7 +217,10 @@ class ModelArguments:
         default=0.0,
         metadata={"help": "Token Masking Probability"},
     )
-
+    lora_dropout: Optional[float] = field(
+        default=0.0,
+        metadata={"help": "Dropout Probability Between two LoRA Matrix"},
+    )
     
 def main():
     # See all possible arguments in src/transformers/training_args.py
