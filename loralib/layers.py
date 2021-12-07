@@ -98,6 +98,7 @@ class Linear(nn.Linear, LoRALayer):
         r: int = 0, 
         lora_alpha: int = 1, 
         lora_dropout: float = 0.,
+        lora_norm: bool = False,
         fan_in_fan_out: bool = False, # Set this to True if the layer to replace stores weight like (fan_in, fan_out)
         merge_weights: bool = True,
         **kwargs
@@ -117,6 +118,9 @@ class Linear(nn.Linear, LoRALayer):
         self.reset_parameters()
         if fan_in_fan_out:
             self.weight.data = self.weight.data.T
+        self.lora_norm = lora_norm
+        if lora_norm:
+            self.lora_NormLayer = nn.LayerNorm()
 
     def reset_parameters(self):
         nn.Linear.reset_parameters(self)
@@ -151,7 +155,10 @@ class Linear(nn.Linear, LoRALayer):
         if self.r > 0 and not self.merged:
             result = F.linear(x, T(self.weight), bias=self.bias)
             if self.r > 0:
-                result += (self.lora_dropout(x @ self.lora_A.T) @ self.lora_B.T) * self.scaling
+                if self.lora_norm:
+                    result += (self.lora_NormLayer(self.lora_dropout(x @ self.lora_A.T)) @ self.lora_B.T) * self.scaling
+                else:
+                    result += (self.lora_dropout(x @ self.lora_A.T) @ self.lora_B.T) * self.scaling
             return result
         else:
             return F.linear(x, T(self.weight), bias=self.bias)
