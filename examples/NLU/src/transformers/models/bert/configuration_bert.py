@@ -150,7 +150,7 @@ class BertConfig(PretrainedConfig):
         apply_lora=False,
         lora_alpha=None,
         lora_r=None,
-        lora_dropout=None
+        lora_dropout=None,
         apply_adapter=False,
         adapter_type=None,
         adapter_size=None,
