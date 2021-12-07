@@ -22,5 +22,6 @@ examples/text-classification/run_glue.py \
 --apply_lora \
 --lora_r 8 \
 --lora_alpha 16 \
+--lora_dropout 0.5 \
 --seed 0 \
 --weight_decay 0.1
