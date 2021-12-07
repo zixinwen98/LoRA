@@ -356,7 +356,7 @@ def main():
         apply_lora=model_args.apply_lora,
         lora_alpha=model_args.lora_alpha,
         lora_r=model_args.lora_r,
-        lora_dropout = model_args.lora_dropout,
+        lora_dropout=model_args.lora_dropout,
         apply_adapter=model_args.apply_adapter,
         adapter_type=model_args.adapter_type,
         adapter_size=model_args.adapter_size,
