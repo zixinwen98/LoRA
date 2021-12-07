@@ -120,7 +120,7 @@ class Linear(nn.Linear, LoRALayer):
             self.weight.data = self.weight.data.T
         self.lora_norm = lora_norm
         if lora_norm:
-            self.lora_NormLayer = nn.GELU()
+            self.lora_NormLayer = nn.LayerNorm(r)
 
     def reset_parameters(self):
         nn.Linear.reset_parameters(self)
